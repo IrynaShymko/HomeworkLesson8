@@ -22,6 +22,6 @@ public class AutomationSiteNameTest extends TestBase {
         driver.get(siteUrl);
         logger.info("<<<<<Testing of {}", siteUrl);
         logger.info("<<<<<Expected title: " + expectedTitle);
-        assertThat("Title of site " + siteUrl + " is not correct", driver.getTitle(), equalTo(expectedTitle));
+        assertThat("Title of site " + siteUrl + " is not correct.", driver.getTitle(), equalTo(expectedTitle));
     }
 }
