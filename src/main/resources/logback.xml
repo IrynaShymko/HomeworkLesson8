@@ -1,5 +1,6 @@
 <configuration scan="true">
     <property name="DEV_HOME" value="${user.dir}/log"/>
+    <property name="HTML_HOME" value="${user.dir}/htmlLog"/>
     <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
@@ -23,8 +24,23 @@
         </encoder>
     </appender>
 
-    <!--    Jesli raskomentowac wiersze 28-30(zeby pisal w log tylko poziom Info i wyszej dla klasy AutomationSiteNameTest),
-            trzeba zakomentowac wiersz 34-->
+    <appender name="HTML" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${HTML_HOME}/timeBasedlogFile_${bySecond}.html</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${HTML_HOME}/timeBasedlogFile.%d{yyyy-MM-dd}.%i.html.gz</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>3</maxHistory>
+            <totalSizeCap>100MB</totalSizeCap>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <charset>UTF-8</charset>
+            <layout class="ch.qos.logback.classic.html.HTMLLayout">
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}%-5level%logger{35}%msg</pattern>
+            </layout>
+        </encoder>
+    </appender>
+
     <!--    <logger name="AutomationSiteNameTest.class" level="info">-->
     <!--        <appender-ref ref="FILE"/>-->
     <!--    </logger>-->
@@ -32,5 +48,6 @@
     <root level="debug">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>
+        <appender-ref ref="HTML"/>
     </root>
 </configuration>
